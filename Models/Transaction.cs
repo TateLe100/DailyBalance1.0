@@ -17,9 +17,10 @@ namespace DailyBalance1._0.Models
         public string? TransactionDescription { get; set; }
         [Required]
         public DateTime TransactionDate { get; set; } = DateTime.Now;
-        [ForeignKey("BankAccount")]
+        [Required]
         public int BankAccountId { get; set; }
-        public virtual BankAccount? BankAcccount { get; set; }
+        [ForeignKey("BankAccountId")]
+        public virtual BankAccount? BankAccount { get; set; }
 
     }
 }

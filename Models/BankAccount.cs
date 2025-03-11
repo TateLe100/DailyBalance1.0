@@ -1,11 +1,22 @@
-﻿namespace DailyBalance1._0.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DailyBalance1._0.Models
 {
     public class BankAccount
     {
+        [Key]
         public int BankAccountId { get; set; }
+        [Required]
         public string BankAccountName { get; set; }
+        [Required]
         public decimal BankAccountBalance { get; set; }
-        public int UserID { get; set; }
-        //public virtual User? UserId { get; set; }
+        [Required]
+        public DateTime CreationDate { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser? User { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }

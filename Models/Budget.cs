@@ -1,17 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DailyBalance1._0.Models
 {
     public class Budget
     {
-        public int BudgetID { get; set; }
-
-        [Column(TypeName = "date")]
+        [Key]
+        public int BudgetId { get; set; }
+        [Required]
         public DateTime Month { get; set; }
+        [Required]
         public decimal TotalBudget { get; set; }
+        [Required]
         public decimal RemainingBalance { get; set; }
-        public int UserID { get; set; }
-        //public virtual User? UserId { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser? User { get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
 
 
         // ---------------- Put this in a view model instead ----------------
