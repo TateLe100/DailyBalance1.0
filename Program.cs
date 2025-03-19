@@ -1,6 +1,7 @@
 using DailyBalance1._0.Data;
 using DailyBalance1._0.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    options.SignIn.RequireConfirmedEmail = false; // Disable email confirmation
+//});
+
+builder.Services.AddTransient<IEmailSender<ApplicationUser>, EmailSender>();
 
 var app = builder.Build();
 
