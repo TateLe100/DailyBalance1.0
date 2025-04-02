@@ -4,9 +4,11 @@ namespace DailyBalance1._0.Services
 {
     public interface IBankAccountService
     {
-        Task<List<BankAccountDTO>> GetAllAccountsAsync();
-        Task<BankAccountDTO?> GetAccountByIdAsync(int id);
-        Task<BankAccountDTO> CreateAccountAsync(BankAccountDTO account);
-        Task<bool> DeleteAccountAsync(int id);
+        Task<List<BankAccountDTO>> GetAllBankAccountsAsync();
+        Task<BankAccountDTO?> GetBankAccByIdAsync(int id);
+        Task<BankAccountDTO> CreateBankAccAsync(BankAccountDTO account);
+        Task<BankAccountDTO> EditBankAcc(int id, BankAccountDTO account);
+        Task<bool> DeleteBankAccAsync(int id);
+
     }
 }
