@@ -13,19 +13,17 @@ namespace DailyBalance1._0.Controllers
     public class BankAccountController : ControllerBase
     {
         private readonly IBankAccountService _bankAccountService;
-        //private readonly ApplicationDbContext _context;
 
-        public BankAccountController(IBankAccountService bankAccountService) // , ApplicationDbContext context
+        public BankAccountController(IBankAccountService bankAccountService) 
         {
             _bankAccountService = bankAccountService;
-            //_context = context;
         }
 
         [HttpGet]
         public async Task<IEnumerable<BankAccountDTO>> GetAll()
         {
             var accounts = await _bankAccountService.GetAllBankAccountsAsync();
-            return accounts; // Assuming a ToString() method or proper conversion
+            return accounts; 
         }
 
         // GET api/<BankAccountController>/5

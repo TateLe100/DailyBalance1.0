@@ -4,6 +4,8 @@ namespace DailyBalance1._0.DTOs
 {
     public class ApplicationUserDTO
     {
+        public string Id { get; set; }
+        public string UserName { get; set; }
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
