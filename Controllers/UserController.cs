@@ -18,7 +18,7 @@ namespace DailyBalance1._0.Controllers
         [HttpGet]
         public async Task<IEnumerable<ApplicationUserDTO>> GetAllUsers()
         {
-            var users = await _userAccountService.GetAllBankAccountsAsync();
+            var users = await _userAccountService.GetAllUserAccountsAsync();
             return users; 
         }
 
@@ -34,7 +34,7 @@ namespace DailyBalance1._0.Controllers
         public async Task<ActionResult<ApplicationUserDTO>> Post(ApplicationUserDTO userAccount)
         {
             await _userAccountService.CreateUserAccAsync(userAccount);
-            return CreatedAtAction("GetBankAccById", new { id = userAccount.Id }, userAccount);
+            return Created(string.Empty, userAccount);
         }
 
         //// PUT api/<UserController>/5
@@ -43,10 +43,19 @@ namespace DailyBalance1._0.Controllers
         //{
         //}
 
-        //// DELETE api/<UserController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<UserController>/5
+        [HttpDelete("{id}")]
+        public void Delete(string id)
+        {
+            // This method will delete a user account by id
+            var result = _userAccountService.DeleteUserAccAsync(id);
+            if (result == null)
+            {
+                // Handle the case where the user was not found
+                HttpContext.Response.StatusCode = 404;
+                return;
+            }
+            // return success
+        }
     }
 }

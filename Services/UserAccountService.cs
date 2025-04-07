@@ -10,11 +10,13 @@ namespace DailyBalance1._0.Services
     public class UserAccountService : IUserAccountService
     {
         private readonly ApplicationDbContext _context;
-        public UserAccountService(ApplicationDbContext context)
+        private readonly Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager;
+        public UserAccountService(ApplicationDbContext context, Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
-        public Task<List<ApplicationUserDTO>> GetAllBankAccountsAsync()
+        public Task<List<ApplicationUserDTO>> GetAllUserAccountsAsync()
         {
             var accounts = _context.Users
                 .Select(u => new ApplicationUserDTO
@@ -31,10 +33,10 @@ namespace DailyBalance1._0.Services
                 .ToListAsync();
             return accounts;   
         }
-        //public Task<ApplicationUserDTO?> GetBankAccByIdAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Task<ApplicationUserDTO?> GetUserAccByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
         public Task<ApplicationUserDTO> CreateUserAccAsync(ApplicationUserDTO account)
         {
             var hasher = new PasswordHasher<ApplicationUser>();
@@ -51,6 +53,8 @@ namespace DailyBalance1._0.Services
             newUser.PasswordHash = hashedPassword;
             _context.Users.Add(newUser);
             _context.SaveChanges();
+
+
             return Task.FromResult(new ApplicationUserDTO
             {
                 Id = newUser.Id,
@@ -66,9 +70,18 @@ namespace DailyBalance1._0.Services
         //{
         //    throw new NotImplementedException();
         //}
-        //public Task<bool> DeleteBankAccAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<bool> DeleteUserAccAsync(string id)
+        {
+            var user = _context.Users.Where(u => u.Id == id);
+
+            if (user == null || !user.Any())
+            {
+                return false; // User not found
+            }
+            _context.Users.Remove(user.First());
+            await _context.SaveChangesAsync();
+            return true; // User deleted successfully
+            
+        }
     }
 }
