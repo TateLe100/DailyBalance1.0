@@ -25,16 +25,28 @@ namespace DailyBalance1._0.Services
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     PhoneNumber = u.PhoneNumber,
-                    ConfirmPassword = u.RealPassword,
+                    RealPassword = u.RealPassword,
 
                 })
                 .ToListAsync();
             return accounts;   
         }
-        //public Task<ApplicationUserDTO?> GetBankAccByIdAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Task<ApplicationUserDTO?> GetUserAccByIdAsync(string id)
+        {
+            var user = _context.Users.Where(u => u.Id == id)
+                .Select(u => new ApplicationUserDTO
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
+                    RealPassword = u.RealPassword,
+                })
+                .FirstOrDefaultAsync();
+            return user;
+        }
         public Task<ApplicationUserDTO> CreateUserAccAsync(ApplicationUserDTO account)
         {
             var hasher = new PasswordHasher<ApplicationUser>();
@@ -66,9 +78,17 @@ namespace DailyBalance1._0.Services
         //{
         //    throw new NotImplementedException();
         //}
-        //public Task<bool> DeleteBankAccAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Task<bool> DeleteUserAccAsync(string id)
+        {
+            var oldUser = _context.Users.Find(id);
+            if (oldUser == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            _context.Users.Remove(oldUser);
+            _context.SaveChanges();
+            return Task.FromResult(true);
+        }
     }
 }

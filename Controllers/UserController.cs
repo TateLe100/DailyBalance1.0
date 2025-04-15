@@ -22,19 +22,21 @@ namespace DailyBalance1._0.Controllers
             return users; 
         }
 
-        //// GET api/<UserController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        // GET api/<UserController>/5
+        [HttpGet("{id}")]
+        public async Task<ApplicationUserDTO> Get(string id)
+        {
+            var user = await _userAccountService.GetUserAccByIdAsync(id);
+            return user;
+        }
 
         // POST api/<UserController>
         [HttpPost]
         public async Task<ActionResult<ApplicationUserDTO>> Post(ApplicationUserDTO userAccount)
         {
-            await _userAccountService.CreateUserAccAsync(userAccount);
-            return CreatedAtAction("GetBankAccById", new { id = userAccount.Id }, userAccount);
+            var newUser = await _userAccountService.CreateUserAccAsync(userAccount);
+            return newUser;
+            //return CreatedAtAction("GetBankAccById", new { id = userAccount.Id }, userAccount);
         }
 
         //// PUT api/<UserController>/5
@@ -43,10 +45,18 @@ namespace DailyBalance1._0.Controllers
         //{
         //}
 
-        //// DELETE api/<UserController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE api/<UserController>/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (await _userAccountService.DeleteUserAccAsync(id))
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
