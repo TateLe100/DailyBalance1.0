@@ -57,7 +57,8 @@ namespace DailyBalance1._0.Services
                 FirstName = account.FirstName,
                 LastName = account.LastName,
                 PhoneNumber = account.PhoneNumber,
-                RealPassword = account.ConfirmPassword
+                RealPassword = account.ConfirmPassword,
+                PhoneNumberConfirmed = true
             };
             string hashedPassword = hasher.HashPassword(newUser, newUser.RealPassword);
             newUser.PasswordHash = hashedPassword;
@@ -71,13 +72,40 @@ namespace DailyBalance1._0.Services
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
                 PhoneNumber = newUser.PhoneNumber,
-                ConfirmPassword = newUser.RealPassword
+                ConfirmPassword = newUser.RealPassword,
+                Password = newUser.RealPassword
             });
         }
-        //public Task<ApplicationUserDTO> EditBankAcc(int id, ApplicationUserDTO account)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<ApplicationUserDTO> EditUserAcc(string id, ApplicationUserDTO account)
+        {
+            var oldAcc = _context.Users.Find(id);
+
+            if (oldAcc == null)
+            {
+                return new ApplicationUserDTO();
+            }
+
+            oldAcc.UserName = account.UserName;
+            oldAcc.Email = account.Email;
+            oldAcc.FirstName = account.FirstName;
+            oldAcc.LastName = account.LastName;
+            oldAcc.PhoneNumber = account.PhoneNumber;
+            oldAcc.RealPassword = account.RealPassword;
+            oldAcc.Email = account.Email;
+            _context.Users.Update(oldAcc);
+            await _context.SaveChangesAsync();
+            return new ApplicationUserDTO
+            {
+                Id = oldAcc.Id,
+                UserName = oldAcc.UserName,
+                Email = oldAcc.Email,
+                FirstName = oldAcc.FirstName,
+                LastName = oldAcc.LastName,
+                PhoneNumber = oldAcc.PhoneNumber,
+                ConfirmPassword = oldAcc.RealPassword,
+                Password = oldAcc.RealPassword
+            };
+        }
         public Task<bool> DeleteUserAccAsync(string id)
         {
             var oldUser = _context.Users.Find(id);

@@ -7,7 +7,7 @@ namespace DailyBalance1._0.Services
         Task<List<ApplicationUserDTO>> GetAllBankAccountsAsync();
         Task<ApplicationUserDTO?> GetUserAccByIdAsync(string id);
         Task<ApplicationUserDTO> CreateUserAccAsync(ApplicationUserDTO account);
-        //Task<ApplicationUserDTO> EditBankAcc(int id, ApplicationUserDTO account);
+        Task<ApplicationUserDTO> EditUserAcc(string id, ApplicationUserDTO account);
         Task<bool> DeleteUserAccAsync(string id);
     }
 }

@@ -36,14 +36,22 @@ namespace DailyBalance1._0.Controllers
         {
             var newUser = await _userAccountService.CreateUserAccAsync(userAccount);
             return newUser;
-            //return CreatedAtAction("GetBankAccById", new { id = userAccount.Id }, userAccount);
         }
 
-        //// PUT api/<UserController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        // PUT api/<UserController>/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ApplicationUserDTO>> Put(string id, ApplicationUserDTO updatedUser)
+        {
+            if(id != updatedUser.Id)
+            {
+                return BadRequest();
+            }
+
+            await _userAccountService.EditUserAcc(id, updatedUser);
+
+            return NoContent();
+
+        }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]

@@ -4,6 +4,7 @@ namespace DailyBalance1._0.DTOs
 {
     public class ApplicationUserDTO
     {
+        // Technically we dont need Id but we will keep it in for testing purposes
         public string Id { get; set; }
         public string UserName { get; set; }
         [Required]
