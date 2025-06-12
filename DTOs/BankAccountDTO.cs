@@ -10,5 +10,6 @@ namespace DailyBalance1._0.DTOs
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Balance must be a positive number.")]
         public decimal BankAccountBalance { get; set; }
+        public string userId { get; set; }
     }
 }

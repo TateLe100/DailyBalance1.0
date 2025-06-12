@@ -21,7 +21,8 @@ namespace DailyBalance1._0.Services
                 {
                     BankAccountId = b.BankAccountId,
                     BankAccountName = b.BankAccountName,
-                    BankAccountBalance = b.BankAccountBalance
+                    BankAccountBalance = b.BankAccountBalance,
+                    userId = b.UserId
                 })
                 .ToListAsync();
         }
@@ -37,7 +38,8 @@ namespace DailyBalance1._0.Services
             {
                 BankAccountId = account.BankAccountId,
                 BankAccountName = account.BankAccountName,
-                BankAccountBalance = account.BankAccountBalance
+                BankAccountBalance = account.BankAccountBalance,
+                userId = account.UserId
             };
         }
 
@@ -48,7 +50,7 @@ namespace DailyBalance1._0.Services
                 BankAccountName = account.BankAccountName,
                 BankAccountBalance = account.BankAccountBalance,
                 CreationDate = DateTime.Now,
-                UserId = "1" // Hardcoded for now
+                UserId = account.userId
             };
             _context.BankAccounts.Add(newAccount);
             _context.SaveChanges();
@@ -56,7 +58,8 @@ namespace DailyBalance1._0.Services
             {
                 BankAccountId = newAccount.BankAccountId,
                 BankAccountName = newAccount.BankAccountName,
-                BankAccountBalance = newAccount.BankAccountBalance
+                BankAccountBalance = newAccount.BankAccountBalance,
+                userId = newAccount.UserId
             });
         }
 
@@ -75,7 +78,8 @@ namespace DailyBalance1._0.Services
             {
                 BankAccountId = bankAccount.BankAccountId,
                 BankAccountName = bankAccount.BankAccountName,
-                BankAccountBalance = bankAccount.BankAccountBalance
+                BankAccountBalance = bankAccount.BankAccountBalance,
+                userId = bankAccount.UserId
             });
         }
 
@@ -83,7 +87,7 @@ namespace DailyBalance1._0.Services
 
         public Task<bool> DeleteBankAccAsync(int id)
         {
-            var account = _context.BankAccounts.Find(id);
+            var account = _context.BankAccounts.FirstOrDefault(x => x.BankAccountId == id);
             if (account == null)
             {
                 return Task.FromResult(false);

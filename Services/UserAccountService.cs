@@ -78,8 +78,9 @@ namespace DailyBalance1._0.Services
         }
         public async Task<ApplicationUserDTO> EditUserAcc(string id, ApplicationUserDTO account)
         {
-            var oldAcc = _context.Users.Find(id);
+            var oldAcc = _context.Users.FirstOrDefault(x  => x.Id == id);
 
+            // I have a validation in the controller so I technically dont need this but its fine for now 
             if (oldAcc == null)
             {
                 return new ApplicationUserDTO();
